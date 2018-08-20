@@ -8,9 +8,15 @@
   <meta name="descripcion" content="" />
   <meta name="keywords" content="" />
   <meta http-equiv="X-UA-Compatiable" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
+  <link rel="stylesheet" href="static/css/bs_css/bootstrap.min.css" type="text/css"  >
   <link rel="stylesheet" href="static/css/style.css" type="text/css" />
+  
   <script type="text/javascript" src="static/javascript/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" 
+	integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  
   <!-- BLOCK DO WSTAWIANIA META-DANYCH PRZEZ JINJA2 -->
   {% block header_X %}
   {% endblock %}
@@ -20,6 +26,32 @@
 
 <body>
 	
-</body>
+	<header>
+		<div id="logo">
+			Księgarnia Online
+		</div>
+	</header>
+	<nav>
+		<div id="menu">
+			<ul>
+				<li><a href="#">Sklep</a></li>
+				<li><a href="#">Moja kolekcja</a></li>
+				<li><a href="#">Portfel</a></li>
+				<li><a href="#">Logowanie</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div id="top_bar">Napis Ćwiczebny</div>
+	<main>
+		{% block main_container %}
+		{% endblock %}
+	</main>
+	
+	<footer>
+		Przemysław Dąbrowski &copy; 2018 v 0.1
+	</footer>
 
+</body>
+	<script type="text/javascript" src="static/javascript/bs_js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="static/javascript/funkcje.js"></script>
 </html>

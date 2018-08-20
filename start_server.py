@@ -6,6 +6,11 @@ import time
 
 app = Flask(__name__)
 
+dbconfig = { 'host': '127.0.0.1',
+			'user': 'root',
+			'password': 'root',
+			'database': 'ksiegarnia_internetowa', }
+
 app.secret_key = 'fUrE43v9'
 
 def saveLog(req : 'flask_request', res : str, date : 'datetime') -> None:
@@ -23,7 +28,11 @@ def check_status(func):
 		
 @app.route('/')
 def hello() -> 'html':
-	return "Hello"
+	with DBco(dbconfig) as cursor:
+			_SQL = """SELECT * FROM ksiazki """
+			cursor.execute(_SQL)
+			res = cursor.fetchall()
+	return render_template('home.html', the_books = res, the_title = "Książki")
 	
 
 if __name__ == '__main__':

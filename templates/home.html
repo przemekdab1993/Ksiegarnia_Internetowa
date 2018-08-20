@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block main_container %}
+
+	<div class="main_container">
+		<div id="menu_sort">
+			<button class="button_sort" id="b_sort0">Najnowsze</button>
+			<button class="button_sort" id="b_sort0">Najlepiej oceniane</button>
+			<button class="button_sort" id="b_sort0">Przygodowe</button>
+			<button class="button_sort" id="b_sort0">Fantasy</button>
+			<button class="button_sort" id="b_sort0">Historyczne</button>
+			<button class="button_sort" id="b_sort0">Horror</button>
+			<button class="button_sort" id="b_sort0">Bajki</button>
+			<button class="button_sort" id="b_sort0">Kulinaria</button>
+			<button class="button_sort" id="b_sort0">Inne</button>
+		</div>
+		<div id="books_container">
+		
+			{% for k in the_books %}
+				<div class="book_box" id="book_{{ k[0] }}">
+					<div class="img_book">
+					</div>
+					<div class="book_options">
+						<div class="book_title">{{ k[1] }}</div>
+						<button class="book_box_button">Info</button>
+						<button class="book_box_button">Kupuj</button>
+					</div>
+					<div class="stars">{{ k[9] }}</div>
+					<div class="res">{{ k[2] }}</div>
+				</div>
+			{% endfor  %}
+		</div>
+	</div>
+	
+{% endblock %}
