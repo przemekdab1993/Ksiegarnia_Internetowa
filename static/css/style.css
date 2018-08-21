@@ -85,6 +85,10 @@ button:focus
 	line-height: 20px;
 	padding: 3px 5px;
 }
+.button_sort_clicked
+{
+	color: #ff8533;
+}
 #books_container
 {	
 	display: flex;
