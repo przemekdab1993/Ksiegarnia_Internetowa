@@ -9,7 +9,6 @@ function hide_book_box()
 	});
 }
 
-
 $(function() {
 	$('.stars').each(function() {
 		let ua = $(this).text();

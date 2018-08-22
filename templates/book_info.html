@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 
 {% block main_container %}
-	{% for info in the_info %}
-		<div class="main_container">
-			<div class="grand_book">
+	
+	<div class="main_container">
+		{% for info in the_info %}
+			<div class="grand_book" data-id_book="{{ info[0] }}">
 				<div class="grand_book_img">
+					<img src="static/img/books/{{ info[12] }}" />
 				</div>
 				<div class="grand_book_info">
 					<div id="title">{{ info[1] }}</div>
+					<div class="stars_container">
+						<div id="i-stars"> {{ info[9] }}</div>
+						Liczba ocen: {{ info[8] }}
+					</div>
 					<div class="shop">
 						Możesz kupić książke już za <span class="price">{{ info[7] }} zł</span>
 						<a href="#"><button class="buy_button">Kup</button></a>
@@ -36,7 +42,8 @@
 					{{ info[15] }}<br />
 				</div>
 			</div>
-		</div>
-	{% endfor %}
-	
+		{% endfor %}
+	</div>
+	<script type="text/javascript" src="static/javascript/fun_info.js"></script>
+	<script type="text/javascript" src="static/javascript/fun_home.js"></script>
 {% endblock %}

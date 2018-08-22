@@ -160,6 +160,17 @@ footer
 	line-height: 30px;
 	background-color: orange;
 }
+#i-stars
+{
+	font-size: 28px;
+	line-height: 30px;
+	color: gold;
+}
+.i-text
+{
+	font-size: 18px;
+	color: #000;
+}
 .res
 {
 	display: none;
@@ -184,13 +195,6 @@ footer
 	float: left;
 	padding: 10px 20px;
 }
-.shop
-{
-	border: 2px dashed #ff8533;
-	border-radius: 30px;
-	padding: 20px 30px;
-	margin-top: 8px;
-}
 .book_info
 {
 	padding: 10px;
@@ -204,6 +208,25 @@ footer
 	text-shadow: 3px 2px 1px #0000b3, 0px 0px 2px #0000b3;
 	letter-spacing: 1px;
 }
+.stars_container
+{
+	font-size: 14px;
+}
+#info_0
+{
+	padding: 10px;
+}
+#info_0 td
+{
+	padding: 2px 10px;
+}
+.shop
+{
+	border: 2px dashed #ff8533;
+	border-radius: 30px;
+	padding: 20px 30px;
+	margin-top: 8px;
+}
 .buy_button
 {
 	background: linear-gradient(to top, #ff8533 0%, #ffdb4d 100%);
@@ -213,8 +236,4 @@ footer
 	border-radius: 10px;
 	padding: 12px 20px;
 	cursor: pointer;
-}
-#info_0
-{
-	padding: 10px;
 }
