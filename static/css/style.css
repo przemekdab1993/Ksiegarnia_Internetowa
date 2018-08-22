@@ -1,12 +1,16 @@
 body
 {
-	color: #fff;
+	color: #000;
 	margin: 0px;
 	font-size: 18px;
 }
 button:focus
 {
 	outline: none;
+}
+.clear
+{
+	clear: both;
 }
 #logo
 {
@@ -63,10 +67,17 @@ button:focus
 	margin: 20px auto;
 	max-width: 1200px;
 	width: 90%;
-	padding: 20px;
+	padding: 40px;
 	background-color: #e6e6ff;
 	border-radius: 40px;
 }
+footer
+{
+	text-align: center;
+	font-size: 14px;
+}
+
+/* /// STRONA GŁÓWNA \\\ */
 #menu_sort
 {
 	background-color: #ccccff;
@@ -128,6 +139,7 @@ button:focus
 	margin: 0px;
 	border: none;
 	color: #fff;
+	cursor: pointer;
 	transition: color ease-in-out 1s;
 	
 }
@@ -151,4 +163,58 @@ button:focus
 .res
 {
 	display: none;
+}
+
+/* /// INFO BOOKS \\\ */
+.grand_book
+{
+	border: 2px dashed #0000b3;
+	border-radius: 30px;
+	padding: 30px;
+}
+.grand_book_img
+{
+	background-color: #000;
+	width: 300px;
+	height: 360px;
+	float: left;
+}
+.grand_book_info
+{
+	float: left;
+	padding: 10px 20px;
+}
+.shop
+{
+	border: 2px dashed #ff8533;
+	border-radius: 30px;
+	padding: 20px 30px;
+	margin-top: 8px;
+}
+.book_info
+{
+	padding: 10px;
+}
+#title
+{
+	font-size: 38px;
+	font-weight: 700;
+	color: #fff;
+	margin-left: 15px;
+	text-shadow: 3px 2px 1px #0000b3, 0px 0px 2px #0000b3;
+	letter-spacing: 1px;
+}
+.buy_button
+{
+	background: linear-gradient(to top, #ff8533 0%, #ffdb4d 100%);
+	color: #fff;
+	border: none;
+	font-weight: 600;
+	border-radius: 10px;
+	padding: 12px 20px;
+	cursor: pointer;
+}
+#info_0
+{
+	padding: 10px;
 }

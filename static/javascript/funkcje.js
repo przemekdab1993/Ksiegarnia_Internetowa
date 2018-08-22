@@ -1,16 +1,22 @@
+function hide_book_box() 
+{
+	$('.book_box_button').hide();
+	$('.book_box').on('mouseenter', function() {
+		$(this).find('.book_box_button').fadeIn(500);
+		$('.book_box').on('mouseleave', function() {
+			$(this).find('.book_box_button').fadeOut(200);
+		});
+	});
+}
+
+
 $(function() {
 	$('.stars').each(function() {
 		let ua = $(this).text();
 		ua = parseFloat(ua);
 		$(this).text(ua.toFixed(1));
 	});
-	$('.book_box_button').hide();
-	$('.book_box').on('mouseenter', function() {
-		$(this).find('.book_box_button').fadeIn(600);
-		$('.book_box').on('mouseleave', function() {
-			$(this).find('.book_box_button').fadeOut(300);
-		});
-	});
+	hide_book_box();
 	
 	$('.button_sort').not('#b_sort0').not('#b_sort1').on('click', function() {
 		$('.button_sort').removeClass('button_sort_clicked');
@@ -36,6 +42,7 @@ $(function() {
 		});
 		$('#books_container').html($sort);
 		$('.book_box').hide().fadeIn(800);
+		hide_book_box();
 	});
 	$('#b_sort1').on('click', function() {
 		$('.button_sort').removeClass('button_sort_clicked');
@@ -48,6 +55,7 @@ $(function() {
 		});
 		$('#books_container').html($sort);
 		$('.book_box').hide().fadeIn(800);
+		hide_book_box();
 	});
 	$('#button_info').on('submit', function() {
 		

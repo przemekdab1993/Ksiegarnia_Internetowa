@@ -1,7 +1,42 @@
 {% extends 'base.html' %}
 
 {% block main_container %}
-
-	
+	{% for info in the_info %}
+		<div class="main_container">
+			<div class="grand_book">
+				<div class="grand_book_img">
+				</div>
+				<div class="grand_book_info">
+					<div id="title">{{ info[1] }}</div>
+					<div class="shop">
+						Możesz kupić książke już za <span class="price">{{ info[7] }} zł</span>
+						<a href="#"><button class="buy_button">Kup</button></a>
+					</div>
+					<div id="info_0">
+						<table>
+							<tr>
+								<td>Autor:</td><td>{{ info[3] }} {{ info[4] }}</td>
+							</tr>
+							<tr>
+								<td>Wydawnictwo:</td><td>{{ info[5] }}</td>
+							</tr>
+							<tr>
+								<td>Rok wydania:</td><td>{{ info[6] }}</td>
+							</tr>
+							<tr>
+								<td>Gatunek:</td><td>{{ info[2] }}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="book_info">
+					{{ info[13] }}<br />
+					{{ info[14] }}<br />
+					{{ info[15] }}<br />
+				</div>
+			</div>
+		</div>
+	{% endfor %}
 	
 {% endblock %}
