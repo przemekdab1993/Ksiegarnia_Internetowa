@@ -13,6 +13,7 @@ dbconfig = { 'host': '127.0.0.1',
 
 app.secret_key = 'fUrE43v9'
 
+
 def saveLog(req : 'flask_request', res : str, date : 'datetime') -> None:
 	""" Zapisanie logowania do pliku log """
 	with open('log/save.log', 'a') as log:
@@ -23,7 +24,7 @@ def check_status(func):
 	if 'loged_in' in session:
 		return func()
 	else:
-		return render_template('login.html', the_title='Login')
+		return render_template('login.html', the_title= 'Login')
 		
 		
 @app.route('/')
@@ -42,5 +43,32 @@ def info(id_book : str) -> 'html':
 			res = cursor.fetchall()
 			
 	return render_template('book_info.html', the_info = res, the_title = res)
+	
+@app.route('/login')
+def login() -> 'html':
+	if 'loged_in' in session:
+		return ("Jesteś już zalogowany jako " + session['user_name'])
+	else:
+		return render_template('login.html', the_title = 'Logowanie')
+		
+@app.route('/login_up', methods=['POST'])
+def login_up() -> 'html':
+	user_name = request.form['user_name']
+	password = request.form['password']
+	session['loged_in'] = True
+	session['user_name'] = user_name
+	return ('Jesteś teraz zalogowany jako ' + user_name + password)
+	
+@app.route('/login_down')
+def login_down() -> 'html':
+	session.clear()
+	return "wylogowany"
+	
+@app.route('/my_wallet')
+def my_wallet() -> 'html':
+	def wallet() -> str:
+		return "portfel a w portfelu 0"
+	return check_status(wallet)
+		
 if __name__ == '__main__':
 	app.run(debug = True)

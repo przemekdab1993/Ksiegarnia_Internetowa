@@ -1,4 +1,4 @@
-CREATE table ksiazki(
+-CREATE table ksiazki(
 	id_ksiazki smallint auto_increment primary key not null,
     tytul text not null,
     gatunek varchar(32) not null,
@@ -11,4 +11,3 @@ CREATE table ksiazki(
     ocena decimal(10,8),
     data_dodania timestamp default current_timestamp
     );
-    

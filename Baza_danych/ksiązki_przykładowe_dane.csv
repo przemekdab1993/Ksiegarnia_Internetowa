@@ -1,4 +1,0 @@
-id_ksiazki,tytul,gatunek,imie_autora,nazwisko_autora,wydawnictwo,rok_wydania,cena,liczba_ocen,ocena,data_dodania
-1,"Ala ma kota",bajka,Eliza,Major,"Koty i psy",1993,20,0,0,"2018-08-20 22:31:19"
-2,"Kuchenne rewolucje",kulineria,Magdalena,Gessler,"Kuchnia i ja",2017,48,0,0,"2018-08-20 22:33:21"
-3,"W pustyni coś piszczy",przygodowe,Sofia,Jazz,Helions,2016,32,NULL,NULL,"2018-08-20 22:46:58"

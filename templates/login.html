@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block main_container %}
+	<div class="main_container">
+		<h2>Logowanie się do konta</h2> 
+		<div class="l-form">
+			<form action="/login_up" method="post">
+				<input class="l-input" type="text" name="user_name" /><br />
+				<input class="l-input" type="text" name="password" /><br />
+				<input class="l-submit" type="submit" value="Login" />
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript" src="static/javascript/fun_login.js"></script>
+{% endblock %}
