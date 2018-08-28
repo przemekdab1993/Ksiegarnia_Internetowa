@@ -30,24 +30,26 @@ def check_status(func):
 @app.route('/')
 def hello() -> 'html':
 	with DBco(dbconfig) as cursor:
-			_SQL = """SELECT id_ksiazki, tytul, gatunek, ocena FROM ksiazki """
-			cursor.execute(_SQL)
-			res = cursor.fetchall()
+		_SQL = """SELECT id_ksiazki, tytul, gatunek, ocena FROM ksiazki """
+		cursor.execute(_SQL)
+		res = cursor.fetchall()
 	return render_template('home.html', the_books = res, the_title = "Książki")
 	
 @app.route('/book_info<id_book>')
 def info(id_book : str) -> 'html':
 	with DBco(dbconfig) as cursor:
-			_SQL = """SELECT * FROM ksiazki AS k, ksiazki_information AS i WHERE k.id_ksiazki = i.id_ksiazki AND k.id_ksiazki = (%s) """
-			cursor.execute(_SQL, (id_book,))
-			res = cursor.fetchall()
+		_SQL = """SELECT * FROM ksiazki AS k, ksiazki_information AS i WHERE k.id_ksiazki = i.id_ksiazki AND k.id_ksiazki = (%s) """
+		cursor.execute(_SQL, (id_book,))
+		res = cursor.fetchall()
 			
 	return render_template('book_info.html', the_info = res, the_title = res)
 	
 @app.route('/login')
 def login() -> 'html':
 	if 'loged_in' in session:
-		return ("Jesteś już zalogowany jako " + session['user_name'])
+		text = "Jesteś zalogowany jako " + session['user_name'] + ". "
+		text += 'Ale zawsze możesz się wylogować.'
+		return render_template('alert.html', the_res = text, the_title = 'Witam')
 	else:
 		return render_template('login.html', the_title = 'Logowanie')
 		
@@ -55,19 +57,89 @@ def login() -> 'html':
 def login_up() -> 'html':
 	user_name = request.form['user_name']
 	password = request.form['password']
-	session['loged_in'] = True
-	session['user_name'] = user_name
-	return ('Jesteś teraz zalogowany jako ' + user_name + password)
+	with DBco(dbconfig) as cursor:
+		_SQL = """SELECT id_user FROM user WHERE user_name = (%s) AND password = (%s) """
+		cursor.execute(_SQL, (user_name, password, ))
+		res = cursor.fetchall()	
+	if len(res) > 0:
+		session['loged_in'] = True
+		session['user_name'] = user_name
+		session['id_user'] = res[0]
+		text = "Jesteś zalogowany jako " + user_name
+		return render_template('alert.html', the_res = text, the_title = 'Witam')
+	else:
+		return render_template('login.html', the_title = 'Logowanie')
 	
 @app.route('/login_down')
-def login_down() -> 'html':
+def login_down() -> str:
 	session.clear()
 	return "wylogowany"
 	
+@app.route('/registration')
+def registration() -> 'html':
+	session.clear()
+	return render_template('registration.html', the_title = "Rejestracja")
+
+@app.route('/regist_UNX', methods=['POST'])
+def reg_UNX() -> 'html':
+	user_name = request.form['user_name']
+	password_1 = request.form['password_1']
+	password_2 = request.form['password_2']
+	email = request.form['email']
+	flag = True;
+	
+	""" SPRAWDZANIE POPRAWNOŚCI WPISANYCH DANYCH W FORMULARZU REJESTRACYJNYM """
+	
+	""" Sprawdzanie user_name """
+	if (len(user_name) < 4 or len(user_name) > 32):
+		flag = False
+	with DBco(dbconfig) as cursor:
+		_SQL = """SELECT user_name FROM user WHERE user_name = (%s) """
+		cursor.execute(_SQL, (user_name, ))
+		res = cursor.fetchall()
+	lenght_res = len(res)
+	if lenght_res != 0:
+		flag = False
+		
+	""" Sprawdzanie password """
+	if password_1 != password_2:
+		flag = False
+	if (len(password_1)	< 5 or len(password_1) > 16):
+		flag = False
+		
+	""" Sprawdzanie email """
+	buf_x = email.count("@")
+	if buf_x != 1:
+		flag = False
+	else:
+		if "." not in email:
+			flag = False
+		else:
+			buf_l = email.index("@")
+			after = email[buf_l:]
+			if "." not in after:
+				flag = False
+	with DBco(dbconfig) as cursor:
+		_SQL = """SELECT email FROM user WHERE email = (%s) """
+		cursor.execute(_SQL, (email, ))
+		res = cursor.fetchall()
+	lenght_res = len(res)
+	if lenght_res != 0:
+		flag = False
+	""" WYNIK SPRAWDZANIA """
+	"""	Rejestracja nowego urzytkownika lub powrót do formlarza """
+	if flag == True:
+		with DBco(dbconfig) as cursor:
+			_SQL = """INSERT INTO user (user_name, password, email, cash) VALUES (%s, %s, %s, %s)"""
+			cursor.execute(_SQL, (user_name, password_1, email, '0'))
+		return render_template('login.html', the_script = 'sucess_regist.js', the_title = "Tak")
+	else:
+		return render_template('registration.html', the_title = "Nie")
+
 @app.route('/my_wallet')
 def my_wallet() -> 'html':
 	def wallet() -> str:
-		return "portfel a w portfelu 0"
+		return render_template('my_wallet.html', the_title = "Portfel")
 	return check_status(wallet)
 		
 if __name__ == '__main__':

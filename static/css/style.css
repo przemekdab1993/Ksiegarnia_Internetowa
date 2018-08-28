@@ -176,7 +176,8 @@ footer
 	display: none;
 }
 
-/* /// INFO BOOKS \\\ */
+/* ///  INFO BOOKS \\\ */
+/* ///  "i" - przedrostek  \\\ */
 .grand_book
 {
 	border: 2px dashed #0000b3;
@@ -236,4 +237,47 @@ footer
 	border-radius: 10px;
 	padding: 12px 20px;
 	cursor: pointer;
+}
+
+/* /// LOGOWANIE URZYTKOWNIKA \\\ */
+/* ///  "l" - przedrostek  \\\ */
+.l-form 
+{
+	padding: 40px;
+	font-size: 16px;
+}
+
+/* /// "r" REJESTRACJA  \\\ */
+/* ///  "r" - przedrostek  \\\ */
+.r-form
+{
+	width: 500px;
+	margin: 0px auto;
+	padding: 40px;
+	font-size: 16px;
+}
+label
+{
+	margin-bottom: 0.2rem;
+}
+#reg input[type=text], #reg input[type=password], #reg input[type=email]
+{
+	width: 100%;
+	border: 1px solid #8080ff;
+	padding: 5px 0px 5px 10px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+}
+#reg input[type=submit]
+{
+	background: linear-gradient(to top, #ff8533 0%, #ffdb4d 100%);
+	color: #fff;
+	border: none;
+	font-weight: 600;
+	border-radius: 10px;
+	padding: 12px 20px;
+	cursor: pointer;
+	letter-spacing: 1px;
+	margin: 0px auto;
+	display: block;
 }

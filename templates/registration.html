@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block main_container %}
+	<div class="main_container">
+		<div class="r-form">
+			<h2>Rejestracja</h2>
+			<form id="reg" action="regist_UNX" method="POST">
+				<label for="user_name">nazwa urzytkownika: </label>
+				<input type="text" name="user_name"><br />
+				<label for="passowrd_1">hasło: </label>
+				<input type="password" name="password_1"><br />
+				<label for="password_2">powtórz hasło: </label>
+				<input type="password" name="password_2"><br />
+				<label for="email">email: </label>
+				<input type="text" name="email"><br />
+				<input type="checkbox" name="regulations" />
+				<label for="regulations">Akceptuje reglamin serwisu</label><br />
+				<input type="submit" value="Rejestracja" />
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript" src="static/javascript/fun_registration.js"></script>
+{% endblock %}
