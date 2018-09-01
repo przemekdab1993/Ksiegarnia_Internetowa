@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block main_container %}
+	<div class="main_container">
+		<div id="s-title">
+			<h3>Jesteś zalogowany jako {{ the_user_name }}</h3>
+			Jeśli to nie ty natychmiast się <a href="/login_down">wyloguj</a>
+		</div>
+		<div class="s-settings_container">
+		Dane użytkownika:
+			<table class="s-table">
+				<tr>
+					<td>nazwa użytkownika:</td>
+					<td>{{ the_user_name }}</td>
+				</tr>
+				<tr>
+					<td>email:</td>
+					<td>trele@gnom.pl</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript" src="static/javascript/fun_settings.js"></script>
+	
+{% endblock %}

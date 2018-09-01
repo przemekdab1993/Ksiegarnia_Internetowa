@@ -15,12 +15,12 @@ app.secret_key = 'fUrE43v9'
 
 
 def saveLog(req : 'flask_request', res : str, date : 'datetime') -> None:
-	""" Zapisanie logowania do pliku log """
+	''' Zapisanie logowania do pliku log '''
 	with open('log/save.log', 'a') as log:
 		print(req, res, date, file = log, sep = " || ")
 	
 def check_status(func):
-	""" SPRAWDZANIE CZY JESTEŚ ZALOGOWANY """
+	''' SPRAWDZANIE CZY JESTEŚ ZALOGOWANY '''
 	if 'loged_in' in session:
 		return func()
 	else:
@@ -47,9 +47,7 @@ def info(id_book : str) -> 'html':
 @app.route('/login')
 def login() -> 'html':
 	if 'loged_in' in session:
-		text = "Jesteś zalogowany jako " + session['user_name'] + ". "
-		text += 'Ale zawsze możesz się wylogować.'
-		return render_template('alert.html', the_res = text, the_title = 'Witam')
+		return render_template('settings.html', the_user_name = session['user_name'], the_title = 'Dane użytkownika')
 	else:
 		return render_template('login.html', the_title = 'Logowanie')
 		
@@ -71,9 +69,10 @@ def login_up() -> 'html':
 		return render_template('login.html', the_title = 'Logowanie')
 	
 @app.route('/login_down')
-def login_down() -> str:
+def login_down() -> 'html':
+	time.sleep(4)
 	session.clear()
-	return "wylogowany"
+	return render_template('alert.html', the_res = "Zostałeś wylogowany", the_title = 'Wylogowanie')
 	
 @app.route('/registration')
 def registration() -> 'html':
@@ -88,9 +87,9 @@ def reg_UNX() -> 'html':
 	email = request.form['email']
 	flag = True;
 	
-	""" SPRAWDZANIE POPRAWNOŚCI WPISANYCH DANYCH W FORMULARZU REJESTRACYJNYM """
+	''' SPRAWDZANIE POPRAWNOŚCI WPISANYCH DANYCH W FORMULARZU REJESTRACYJNYM '''
 	
-	""" Sprawdzanie user_name """
+	''' Sprawdzanie user_name '''
 	if (len(user_name) < 4 or len(user_name) > 32):
 		flag = False
 	with DBco(dbconfig) as cursor:
@@ -101,13 +100,13 @@ def reg_UNX() -> 'html':
 	if lenght_res != 0:
 		flag = False
 		
-	""" Sprawdzanie password """
+	''' Sprawdzanie password '''
 	if password_1 != password_2:
 		flag = False
 	if (len(password_1)	< 5 or len(password_1) > 16):
 		flag = False
 		
-	""" Sprawdzanie email """
+	''' Sprawdzanie email '''
 	buf_x = email.count("@")
 	if buf_x != 1:
 		flag = False
@@ -120,17 +119,18 @@ def reg_UNX() -> 'html':
 			if "." not in after:
 				flag = False
 	with DBco(dbconfig) as cursor:
-		_SQL = """SELECT email FROM user WHERE email = (%s) """
+		_SQL = """ SELECT email FROM user WHERE email = (%s) """
 		cursor.execute(_SQL, (email, ))
 		res = cursor.fetchall()
 	lenght_res = len(res)
 	if lenght_res != 0:
 		flag = False
-	""" WYNIK SPRAWDZANIA """
-	"""	Rejestracja nowego urzytkownika lub powrót do formlarza """
+		
+	''' WYNIK SPRAWDZANIA '''
+	'''	Rejestracja nowego urzytkownika lub powrót do formlarza '''
 	if flag == True:
 		with DBco(dbconfig) as cursor:
-			_SQL = """INSERT INTO user (user_name, password, email, cash) VALUES (%s, %s, %s, %s)"""
+			_SQL = """ INSERT INTO user (user_name, password, email, cash) VALUES (%s, %s, %s, %s)"""
 			cursor.execute(_SQL, (user_name, password_1, email, '0'))
 		return render_template('login.html', the_script = 'sucess_regist.js', the_title = "Tak")
 	else:
@@ -138,8 +138,12 @@ def reg_UNX() -> 'html':
 
 @app.route('/my_wallet')
 def my_wallet() -> 'html':
-	def wallet() -> str:
-		return render_template('my_wallet.html', the_title = "Portfel")
+	def wallet() -> 'html':
+		with DBco(dbconfig) as cursor:
+			_SQL = """ SELECT * FROM transactions WHERE id_user = (%s) LIMIT 11 """
+			cursor.execute(_SQL, (session['id_user']))
+			res = cursor.fetchall()
+		return render_template('my_wallet.html', the_res = res, the_title = res)
 	return check_status(wallet)
 		
 if __name__ == '__main__':

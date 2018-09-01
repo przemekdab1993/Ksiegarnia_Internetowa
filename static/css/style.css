@@ -281,3 +281,35 @@ label
 	margin: 0px auto;
 	display: block;
 }
+/* /// "s" DANE UŻYTKOWNIKA ORAZ USTAWIENIA  \\\ */
+/* ///  "s" - przedrostek  \\\ */
+table.s-table tr td
+{
+	border: 2px solid #cccccc;
+	padding: 4px;
+	text-align: center;
+}
+.s-settings_container
+{
+	padding: 40px;
+	margin: 0px auto;
+}
+/* /// "w" PORTFEL URZYTKOWNIKA  \\\ */
+/* ///  "w" - przedrostek  \\\ */
+table.w-table 
+{
+	width: 100%;
+}
+table.w-table tr td
+{
+	border: 2px solid #cccccc;
+	padding: 4px;
+	text-align: center;
+}
+table.w-table tr th
+{
+	border: 2px solid #cccccc;
+	padding: 4px;
+	text-align: center;
+	background-color: #ccc;
+}
