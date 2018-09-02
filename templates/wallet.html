@@ -1,0 +1,21 @@
+{% extends 'my_wallet.html' %}
+
+{% block wallet_history %}
+	<div id="w-container_1">
+		Ostatnio przeprowadzane operacje finansowe(10 ostatnich)
+		<table class="w-table">
+			<tr>
+				<th>Data</th>
+				<th>Nazwa</th>
+				<th>Wartość</th>
+			</tr>
+			{% for t in the_res %}
+			<tr>
+				<td>{{ t[4] }}</td>
+				<td>{{ t[3] }}</td>
+				<td>{{ t[5] }} pln</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}

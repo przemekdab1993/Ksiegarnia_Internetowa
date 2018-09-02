@@ -296,6 +296,26 @@ table.s-table tr td
 }
 /* /// "w" PORTFEL URZYTKOWNIKA  \\\ */
 /* ///  "w" - przedrostek  \\\ */
+.w-container_2
+{
+	text-align: center;
+	background-color: #ccccff;
+	width: 500px;
+	margin: 0px auto;
+	padding: 30px;
+	border: 4px dashed #8080ff;
+	border-radius: 20px;
+}
+table.w-table_2
+{
+	margin: 10px auto;
+}
+table.w-table_2 tr td
+{
+	padding: 5px;
+	border: 2px solid #ff8533;
+	text-align: center;
+}
 table.w-table 
 {
 	width: 100%;

@@ -5,9 +5,11 @@
 		<header>
 			<div id="w-title">
 				<h1>Portfel</h1>
-				<h3>Saldo: 0,00 pln </h3>
+				<h3>Saldo: {{ the_cash }} pln </h3>
 			</div>
 		</header>
+		{% block new_transaction %}
+		{% endblock %}
 		<div class="w-container_1">
 			Aby doładowaś stan swojego portwela Wpłać na podany niżej rachunek bankowy, nie zapominając wtytule wpisać swojej nazwy użytkownika oraz ID.
 			<table class="s-table">
@@ -24,24 +26,9 @@
 					<td>67 1140 2004 0000 3302 7064 9283</td>
 				</tr>
 			</table>
-		<div id="w-container_1">
-			Ostatnio przeprowadzane operacje finansowe(10 ostatnich)
-			<table class="w-table">
-				<tr>
-					<th>Data</th>
-					<th>Nazwa</th>
-					<th>Wartość</th>
-				</tr>
-				{% for t in the_res %}
-				<tr>
-					<td>{{ t[4] }}</td>
-					<td>{{ t[3] }}</td>
-					<td>{{ t[5] }} pln</td>
-				</tr>
-				{% endfor %}
-			</table>
 		</div>
-		</div>
+		{% block wallet_history %}
+		{% endblock %}
 	</div>
 	<script type="text/javascript" src="static/javascript/fun_wallet.js"></script>
 {% endblock %}

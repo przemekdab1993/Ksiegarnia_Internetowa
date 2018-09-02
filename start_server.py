@@ -136,6 +136,18 @@ def reg_UNX() -> 'html':
 	else:
 		return render_template('registration.html', the_title = "Nie")
 
+
+		
+def show_cash() -> str:
+	with DBco(dbconfig) as cursor:
+		_SQL = """ SELECT cash FROM user WHERE id_user = (%s) """
+		cursor.execute(_SQL, (session['id_user']))
+		res = cursor.fetchall()
+		for i in res:
+			for j in i:
+				res = j
+	return res
+
 @app.route('/my_wallet')
 def my_wallet() -> 'html':
 	def wallet() -> 'html':
@@ -143,8 +155,15 @@ def my_wallet() -> 'html':
 			_SQL = """ SELECT * FROM transactions WHERE id_user = (%s) LIMIT 11 """
 			cursor.execute(_SQL, (session['id_user']))
 			res = cursor.fetchall()
-		return render_template('my_wallet.html', the_res = res, the_title = res)
+		return render_template('wallet.html', the_res = res, the_cash = show_cash(), the_title = "Portfel")
 	return check_status(wallet)
+
+@app.route('/buy_new')
+def buy_new() -> 'html':
+	''' STRONA Kupowanie nowej ksiazki '''
+	def buy() -> 'html':
+		return render_template('new_transaction.html', the_cash = show_cash(), the_title = "Kupuj")
+	return check_status(buy)
 		
 if __name__ == '__main__':
 	app.run(debug = True)
