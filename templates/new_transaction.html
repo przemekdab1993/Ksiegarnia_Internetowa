@@ -1,24 +1,26 @@
+<!-- Sekcja kupowanie przedmiot -->
+
 {% extends 'my_wallet.html' %}
 
 {% block new_transaction %}
 
 	<div class="w-container_2">
-		
+		<h3>{{ the_res_buy.title }}</h3>
 		<table class="w-table_2">
 			<tr>
 				<td>Saldo portfela</td>
-				<td>{{ the_cash }}</td>
+				<td>{{ the_res_buy.cash }} zł</td>
 			</tr>
 			<tr>
 				<td>Cena zakupu</td>
-				<td>???</td>
+				<td>{{ the_res_buy.price }} zł</td>
 			</tr>
 			<tr>
 				<td>Saldo portfela po dokonaniu tranzakcji</td>
-				<td>???</td>
+				<td>{{ the_res_buy.result }} zł</td>
 			</tr>
 		</table>
-		<button class="w-button_1">Zatwierdz</button>
+		<a href="/book-buy_new-{{ the_res_buy.id_book }}"><button class="w-button_1">Zatwierdz zakup</button></a>
 	</div>
 	
 {% endblock %}

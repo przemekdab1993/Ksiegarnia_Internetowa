@@ -1,3 +1,4 @@
+/* /// base.html \\\ */
 body
 {
 	color: #000;
@@ -77,7 +78,7 @@ footer
 	font-size: 14px;
 }
 
-/* /// STRONA GŁÓWNA \\\ */
+/* /// home.html \\\ */
 #menu_sort
 {
 	background-color: #ccccff;
@@ -176,8 +177,8 @@ footer
 	display: none;
 }
 
-/* ///  INFO BOOKS \\\ */
-/* ///  "i" - przedrostek  \\\ */
+/* /// book_info.html \\\ */
+/* /// "i" - przedrostek  \\\ */
 .grand_book
 {
 	border: 2px dashed #0000b3;
@@ -239,7 +240,7 @@ footer
 	cursor: pointer;
 }
 
-/* /// LOGOWANIE URZYTKOWNIKA \\\ */
+/* /// login.html \\\ */
 /* ///  "l" - przedrostek  \\\ */
 .l-form 
 {
@@ -247,7 +248,7 @@ footer
 	font-size: 16px;
 }
 
-/* /// "r" REJESTRACJA  \\\ */
+/* /// registration.html  \\\ */
 /* ///  "r" - przedrostek  \\\ */
 .r-form
 {
@@ -281,8 +282,9 @@ label
 	margin: 0px auto;
 	display: block;
 }
-/* /// "s" DANE UŻYTKOWNIKA ORAZ USTAWIENIA  \\\ */
-/* ///  "s" - przedrostek  \\\ */
+
+/* /// settings.html  \\\ */
+/* /// "s" - przedrostek \\\ */
 table.s-table tr td
 {
 	border: 2px solid #cccccc;
@@ -294,7 +296,8 @@ table.s-table tr td
 	padding: 40px;
 	margin: 0px auto;
 }
-/* /// "w" PORTFEL URZYTKOWNIKA  \\\ */
+
+/* /// my_wallet.html \\\ */
 /* ///  "w" - przedrostek  \\\ */
 .w-container_2
 {

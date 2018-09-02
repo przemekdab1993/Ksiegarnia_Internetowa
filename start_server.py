@@ -4,6 +4,7 @@ from connectDB import DBco
 from random import randint
 import time
 
+
 app = Flask(__name__)
 
 dbconfig = { 'host': '127.0.0.1',
@@ -23,8 +24,7 @@ def check_status(func):
 	''' SPRAWDZANIE CZY JESTEŚ ZALOGOWANY '''
 	if 'loged_in' in session:
 		return func()
-	else:
-		return render_template('login.html', the_title= 'Login')
+	return render_template('login.html', the_title= 'Login')
 		
 		
 @app.route('/')
@@ -47,7 +47,12 @@ def info(id_book : str) -> 'html':
 @app.route('/login')
 def login() -> 'html':
 	if 'loged_in' in session:
-		return render_template('settings.html', the_user_name = session['user_name'], the_title = 'Dane użytkownika')
+		with DBco(dbconfig) as cursor:
+			_SQL = """ SELECT id_user, email FROM user WHERE id_user = (%s) """
+			cursor.execute(_SQL, (session['id_user'],))
+			res = cursor.fetchone()
+		temp_res = {'user_name': session['user_name'], 'id_user': res[0], 'email': res[1]}
+		return render_template('settings.html', the_res = temp_res , the_title = 'Dane użytkownika')
 	else:
 		return render_template('login.html', the_title = 'Logowanie')
 		
@@ -58,7 +63,7 @@ def login_up() -> 'html':
 	with DBco(dbconfig) as cursor:
 		_SQL = """SELECT id_user FROM user WHERE user_name = (%s) AND password = (%s) """
 		cursor.execute(_SQL, (user_name, password, ))
-		res = cursor.fetchall()	
+		res = cursor.fetchone()	
 	if len(res) > 0:
 		session['loged_in'] = True
 		session['user_name'] = user_name
@@ -130,7 +135,7 @@ def reg_UNX() -> 'html':
 	'''	Rejestracja nowego urzytkownika lub powrót do formlarza '''
 	if flag == True:
 		with DBco(dbconfig) as cursor:
-			_SQL = """ INSERT INTO user (user_name, password, email, cash) VALUES (%s, %s, %s, %s)"""
+			_SQL = """ INSERT INTO user (user_name, password, email, cash) VALUES (%s, %s, %s, %s) """
 			cursor.execute(_SQL, (user_name, password_1, email, '0'))
 		return render_template('login.html', the_script = 'sucess_regist.js', the_title = "Tak")
 	else:
@@ -141,7 +146,7 @@ def reg_UNX() -> 'html':
 def show_cash() -> str:
 	with DBco(dbconfig) as cursor:
 		_SQL = """ SELECT cash FROM user WHERE id_user = (%s) """
-		cursor.execute(_SQL, (session['id_user']))
+		cursor.execute(_SQL, (session['id_user'],))
 		res = cursor.fetchall()
 		for i in res:
 			for j in i:
@@ -152,18 +157,49 @@ def show_cash() -> str:
 def my_wallet() -> 'html':
 	def wallet() -> 'html':
 		with DBco(dbconfig) as cursor:
-			_SQL = """ SELECT * FROM transactions WHERE id_user = (%s) LIMIT 11 """
-			cursor.execute(_SQL, (session['id_user']))
+			_SQL = """ SELECT * FROM transactions WHERE id_user =(%s) LIMIT 11 """
+			cursor.execute(_SQL, (session['id_user'],))
 			res = cursor.fetchall()
 		return render_template('wallet.html', the_res = res, the_cash = show_cash(), the_title = "Portfel")
 	return check_status(wallet)
 
-@app.route('/buy_new')
-def buy_new() -> 'html':
+@app.route('/buy_new-action=<id_book>')
+def buy_new(id_book : str) -> 'html':
 	''' STRONA Kupowanie nowej ksiazki '''
 	def buy() -> 'html':
-		return render_template('new_transaction.html', the_cash = show_cash(), the_title = "Kupuj")
-	return check_status(buy)
+		with DBco(dbconfig) as cursor:
+			_SQL = """ SELECT tytul, cena FROM ksiazki WHERE id_ksiazki = (%s) """
+			cursor.execute(_SQL, (id_book,))
+			res = cursor.fetchone()
+		data_buy = {'id_book' : id_book, 'title' : res[0], 'cash' : show_cash(), 'price' : res[1], 'result' : (show_cash() - res[1])}
 		
+		return render_template('new_transaction.html', the_res_buy = data_buy, the_cash = data_buy['cash'], the_title = "Kupuj")
+	return check_status(buy)
+
+@app.route('/book-buy_new-<id_book>')
+def book_buy_add(id_book : str) -> 'html':
+	def add_book() -> 'html':
+		with DBco(dbconfig) as cursor:
+			_SQL = """ SELECT cena, tytul FROM ksiazki WHERE id_ksiazki = (%s) """
+			cursor.execute(_SQL, (id_book,))
+			res = cursor.fetchone()
+		for r in res:
+			book_price = res[0]
+			book_title = res[1]
+		user_cash = show_cash()
+		
+		if user_cash >= book_price:
+			new_user_cash = user_cash - book_price
+			with DBco(dbconfig) as cursor:
+				_SQL1 = """ UPDATE user SET cash = %s WHERE id_user = %s """ 
+				cursor.execute(_SQL1, (new_user_cash, session['id_user']))
+	
+				_SQL2 = """ INSERT INTO transactions (id_ksiazki, id_user, name, cost) VALUES (%s, %s, %s, %s) """
+				cursor.execute(_SQL2, (id_book, session['id_user'], book_title, book_price))
+				
+		return render_template('book_buy_add.html', the_title = "Nowa książka" )
+	return check_status(add_book)
+	
 if __name__ == '__main__':
 	app.run(debug = True)
+	
