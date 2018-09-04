@@ -13,6 +13,11 @@ button:focus
 {
 	clear: both;
 }
+a.link_clear
+{
+	color: #000;
+	text-decoration: none;
+}
 #logo
 {
 	width: 100%;
@@ -113,15 +118,20 @@ footer
 	width: 240px;
 	height: 320px;
 	margin: 4px;
-	border: 2px solid blue;
+	border: 2px solid #3333ff;
 	padding: 2px;
 	position: relative;
 }
 .img_book
 {
 	width: 100%;
-	height: 90%;
+	height: 94%;
 	background-color: #000;
+}
+.img_book img
+{
+	width: 100%;
+	height: 100%;
 }
 .book_options
 {
@@ -131,6 +141,7 @@ footer
 	color: #ff8533;
 	text-align: center;
 	background-color: #ccccff;
+	border-top: 5px solid #3333ff;
 	width: 100%;
 }
 .book_box_button
@@ -142,7 +153,10 @@ footer
 	color: #fff;
 	cursor: pointer;
 	transition: color ease-in-out 1s;
-	
+}
+.h-class
+{
+	display: none;
 }
 .book_box_button:hover
 {
@@ -183,7 +197,7 @@ footer
 {
 	border: 2px dashed #0000b3;
 	border-radius: 30px;
-	padding: 30px;
+	padding: 40px;
 }
 .grand_book_img
 {
@@ -191,6 +205,11 @@ footer
 	width: 300px;
 	height: 360px;
 	float: left;
+}
+.grand_book_img img
+{
+	width: 100%;
+	height: 100%;
 }
 .grand_book_info
 {
@@ -335,4 +354,60 @@ table.w-table tr th
 	padding: 4px;
 	text-align: center;
 	background-color: #ccc;
+}
+
+/* /// user_collection.html \\\ */
+/* ///  "c" - przedrostek  \\\ */
+.c-box_book
+{
+	padding: 10px;
+	border: 2px solid #cccccc;
+	border-radius: 16px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 1px 40px;
+	line-height: 120px;
+	text-align: center;
+}
+.c-img_book
+{
+	height: 120px;
+	width: 18%;
+}
+.c-img_book img
+{
+	width: 100px;
+	height: auto;
+	max-height: 120px;
+}
+.c-title_book
+{
+	height: 120px;
+	width: 43%;
+}
+.c-class
+{
+	height: 120px;
+	width: 20%; 
+}
+.c-stars
+{
+	height: 120px;
+	width: 18%; 
+}
+.c-vote	
+{
+	display: flex;
+	border: 2px solid gold;
+	padding: 4px;
+}
+.c-vote_set
+{
+	cursor: pointer;
+	padding: 0px 4px;
+}
+.c-vote_set:hover
+{
+	color: #ff8533;
 }

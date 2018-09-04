@@ -18,6 +18,7 @@
 			{% for k in the_books %}
 				<div class="book_box" id="book_{{ k[0] }}" data-sort="{{ k[0] }}">
 					<div class="img_book">
+						<img src="static/img/books/{{ k[4] }}" />
 					</div>
 					<div class="book_options">
 						<div class="book_title">{{ k[1] }}</div>
@@ -25,7 +26,7 @@
 						<a href="/buy_new-action={{ k[0] }}"><button class="book_box_button"id="button_buy">Kupuj</button></a>
 					</div>
 					<div class="stars">{{ k[3] }}</div>
-					<div class="type">{{ k[2] }}</div>
+					<div class="h-class">{{ k[2] }}</div>
 				</div>
 			{% endfor  %}
 		</div>

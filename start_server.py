@@ -34,7 +34,7 @@ def check_status(func):
 @app.route('/')
 def hello() -> 'html':
 	with DBco(dbconfig) as cursor:
-		_SQL = """SELECT id_ksiazki, tytul, gatunek, ocena FROM ksiazki """
+		_SQL = """SELECT k.id_ksiazki, k.tytul, k.gatunek, k.ocena, i.img_src FROM ksiazki AS k, ksiazki_information AS i WhERE k.id_ksiazki = i.id_ksiazki"""
 		cursor.execute(_SQL)
 		res = cursor.fetchall()
 	return render_template('home.html', the_books = res, the_title = "Książki")
@@ -172,6 +172,17 @@ def my_wallet() -> 'html':
 		return render_template('wallet.html', the_res = res, the_cash = show_cash(), the_title = "Portfel")
 	return check_status(wallet)
 
+	
+''' ----------------------- '''
+''' KUPOWANIE NOWEJ KSIĄŻKI '''	
+''' ----------------------- '''
+def check_book_list(id_book : 'int') -> 'True or False':
+	with DBco(dbconfig) as cursor:
+		_SQL = """ SELECT id_order FROM transactions WHERE id_ksiazki = %s AND id_user = %s """
+		cursor.execute(_SQL, (id_book, session['id_user']))
+		res = cursor.fetchall()
+	if len(res) > 0:
+		return True
 	return False
 	
 def select_data_book(id_book) -> tuple:
@@ -189,7 +200,6 @@ def buy_new(id_book : str) -> 'html':
 			return render_template('alert.html', the_res = "Posiadasz już tą książke w swojej kolekcji.", the_title = "Błąd")
 		res = select_data_book(id_book)
 		data_buy = {'id_book' : id_book, 'title' : res[0], 'cash' : show_cash(), 'price' : res[1], 'result' : (show_cash() - res[1])}
-		
 		return render_template('new_transaction.html', the_res_buy = data_buy, the_cash = data_buy['cash'], the_title = "Kupuj")
 	
 	return check_status(buy)
@@ -209,7 +219,6 @@ def book_buy_add(id_book : str) -> 'html':
 			with DBco(dbconfig) as cursor:
 				_SQL1 = """ UPDATE user SET cash = %s WHERE id_user = %s """ 
 				cursor.execute(_SQL1, (new_user_cash, session['id_user']))
-	
 				_SQL2 = """ INSERT INTO transactions (id_ksiazki, id_user, name, cost) VALUES (%s, %s, %s, %s) """
 				cursor.execute(_SQL2, (id_book, session['id_user'], book_title, book_price))
 				
@@ -217,6 +226,32 @@ def book_buy_add(id_book : str) -> 'html':
 		else:
 			return render_template('alert.html',the_res = "Niestety nie posiadasz wystarczającej illości środków w swoim portfelu. Doładuj konto.", the_title = "Niepowodzenie")
 	return check_status(add_book)
+
+
+''' -------------------- '''
+''' KOLEKCJA UŻYTKOWNIKA '''	
+''' -------------------- '''
+@app.route('/user_collection')
+def user_collection() -> 'html':
+	def show_collection() -> 'html':
+		with DBco(dbconfig) as cursor:
+			_SQL = """ SELECT i.img_src, k.tytul, k.gatunek, k.ocena, k.id_ksiazki"""
+			_SQL += """ FROM ksiazki AS k, ksiazki_information AS i, transactions AS t """
+			_SQL += """	WHERE t.id_user = %s AND k.id_ksiazki = t.id_ksiazki AND k.id_ksiazki = i.id_ksiazki; """
+			cursor.execute(_SQL, (session['id_user'],))
+			res = cursor.fetchall()
+		return render_template('user_collection.html',the_collection = res, the_title = "Kolekcja książek")
+	return check_status(show_collection)
+
+@app.route('/user_collection-action=<id_book>')
+def collection_this(id_book : str) -> 'html':
+	def show_book() -> 'html':
+		with DBco(dbconfig) as cursor:
+			_SQL = """SELECT * FROM ksiazki AS k, ksiazki_information AS i WHERE k.id_ksiazki = i.id_ksiazki AND k.id_ksiazki = (%s) """
+			cursor.execute(_SQL, (id_book,))
+			res = cursor.fetchall()	
+		return render_template('user_book_info.html', the_info = res, the_title = res[0][1]) 
+	return check_status(show_book)
 	
 if __name__ == '__main__':
 	app.run(debug = True)

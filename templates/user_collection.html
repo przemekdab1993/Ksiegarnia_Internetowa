@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block main_container %}
+
+	<div class="main_container">
+		{% for i in the_collection %}
+			<a class="link_clear" href="/user_collection-action={{ i[4] }}">
+			<div class="c-box_book">
+				<div class="c-img_book">
+					<img src="static/img/books/{{ i[0] }}" />
+				</div>
+				<div class="c-title_book">{{ i[1] }}</div>
+				<div class="c-class">{{ i[2] }}</div>
+				<div class="c-stars">{{ i[3] }}</div>
+			</div>
+			</a>
+		{% endfor %}
+		
+	</div>
+	
+{% endblock %}
