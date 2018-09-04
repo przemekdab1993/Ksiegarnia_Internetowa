@@ -2,17 +2,18 @@ from flask import Flask, render_template, request, session
 from datetime import datetime
 from connectDB import DBco
 from random import randint
+from decimal import Decimal
 import time
 
 
 app = Flask(__name__)
 
+app.secret_key = 'fUrE43v9'
 dbconfig = { 'host': '127.0.0.1',
 			'user': 'root',
 			'password': 'root',
 			'database': 'ksiegarnia_internetowa', }
 
-app.secret_key = 'fUrE43v9'
 
 
 def saveLog(req : 'flask_request', res : str, date : 'datetime') -> None:
@@ -27,6 +28,9 @@ def check_status(func):
 	return render_template('login.html', the_title= 'Login')
 		
 		
+''' ----------------------------- '''
+''' STRONA GŁÓWNA I JEJ PODSTRONY '''	
+''' ----------------------------- '''		
 @app.route('/')
 def hello() -> 'html':
 	with DBco(dbconfig) as cursor:
@@ -42,8 +46,12 @@ def info(id_book : str) -> 'html':
 		cursor.execute(_SQL, (id_book,))
 		res = cursor.fetchall()
 			
-	return render_template('book_info.html', the_info = res, the_title = res)
+	return render_template('book_info.html', the_info = res, the_title = res[0][1])
+
 	
+''' ----------------------------------- '''
+''' LOGOWANIE I REJESTRACJA UŻYTKOWNIKA '''	
+''' ----------------------------------- '''	
 @app.route('/login')
 def login() -> 'html':
 	if 'loged_in' in session:
@@ -93,7 +101,6 @@ def reg_UNX() -> 'html':
 	flag = True;
 	
 	''' SPRAWDZANIE POPRAWNOŚCI WPISANYCH DANYCH W FORMULARZU REJESTRACYJNYM '''
-	
 	''' Sprawdzanie user_name '''
 	if (len(user_name) < 4 or len(user_name) > 32):
 		flag = False
@@ -141,8 +148,10 @@ def reg_UNX() -> 'html':
 	else:
 		return render_template('registration.html', the_title = "Nie")
 
-
 		
+''' ----------------------- '''
+''' ------- PORTFEL ------- '''	
+''' ----------------------- '''		
 def show_cash() -> str:
 	with DBco(dbconfig) as cursor:
 		_SQL = """ SELECT cash FROM user WHERE id_user = (%s) """
@@ -157,35 +166,42 @@ def show_cash() -> str:
 def my_wallet() -> 'html':
 	def wallet() -> 'html':
 		with DBco(dbconfig) as cursor:
-			_SQL = """ SELECT * FROM transactions WHERE id_user =(%s) LIMIT 11 """
+			_SQL = """ SELECT * FROM transactions WHERE id_user = (%s) ORDER BY data_order DESC"""
 			cursor.execute(_SQL, (session['id_user'],))
 			res = cursor.fetchall()
 		return render_template('wallet.html', the_res = res, the_cash = show_cash(), the_title = "Portfel")
 	return check_status(wallet)
 
+	return False
+	
+def select_data_book(id_book) -> tuple:
+	with DBco(dbconfig) as cursor:
+		_SQL = """ SELECT tytul, cena FROM ksiazki WHERE id_ksiazki = (%s) """
+		cursor.execute(_SQL, (id_book,))
+		rex = cursor.fetchone()
+	return rex
+	
 @app.route('/buy_new-action=<id_book>')
 def buy_new(id_book : str) -> 'html':
 	''' STRONA Kupowanie nowej ksiazki '''
 	def buy() -> 'html':
-		with DBco(dbconfig) as cursor:
-			_SQL = """ SELECT tytul, cena FROM ksiazki WHERE id_ksiazki = (%s) """
-			cursor.execute(_SQL, (id_book,))
-			res = cursor.fetchone()
+		if (check_book_list(id_book)) == True:
+			return render_template('alert.html', the_res = "Posiadasz już tą książke w swojej kolekcji.", the_title = "Błąd")
+		res = select_data_book(id_book)
 		data_buy = {'id_book' : id_book, 'title' : res[0], 'cash' : show_cash(), 'price' : res[1], 'result' : (show_cash() - res[1])}
 		
 		return render_template('new_transaction.html', the_res_buy = data_buy, the_cash = data_buy['cash'], the_title = "Kupuj")
+	
 	return check_status(buy)
 
 @app.route('/book-buy_new-<id_book>')
 def book_buy_add(id_book : str) -> 'html':
 	def add_book() -> 'html':
-		with DBco(dbconfig) as cursor:
-			_SQL = """ SELECT cena, tytul FROM ksiazki WHERE id_ksiazki = (%s) """
-			cursor.execute(_SQL, (id_book,))
-			res = cursor.fetchone()
+		res = select_data_book(id_book)
 		for r in res:
-			book_price = res[0]
-			book_title = res[1]
+			book_title = res[0]
+			book_price = res[1]
+			
 		user_cash = show_cash()
 		
 		if user_cash >= book_price:
@@ -197,7 +213,9 @@ def book_buy_add(id_book : str) -> 'html':
 				_SQL2 = """ INSERT INTO transactions (id_ksiazki, id_user, name, cost) VALUES (%s, %s, %s, %s) """
 				cursor.execute(_SQL2, (id_book, session['id_user'], book_title, book_price))
 				
-		return render_template('book_buy_add.html', the_title = "Nowa książka" )
+			return render_template('alert.html',the_res = "Gratujacje pomyślnego dokonania zakupu. Możesz teraz z niego korzystać.", the_title = "Potwierdzenie")
+		else:
+			return render_template('alert.html',the_res = "Niestety nie posiadasz wystarczającej illości środków w swoim portfelu. Doładuj konto.", the_title = "Niepowodzenie")
 	return check_status(add_book)
 	
 if __name__ == '__main__':
