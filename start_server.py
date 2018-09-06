@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, session
 from datetime import datetime
 from connectDB import DBco
 from random import randint
-from decimal import Decimal
 import time
 
 
@@ -71,11 +70,11 @@ def login_up() -> 'html':
 	with DBco(dbconfig) as cursor:
 		_SQL = """SELECT id_user FROM user WHERE user_name = (%s) AND password = (%s) """
 		cursor.execute(_SQL, (user_name, password, ))
-		res = cursor.fetchone()	
+		res = cursor.fetchall()	
 	if len(res) > 0:
 		session['loged_in'] = True
 		session['user_name'] = user_name
-		session['id_user'] = res[0]
+		session['id_user'] = res[0][0]
 		text = "Jesteś zalogowany jako " + user_name
 		return render_template('alert.html', the_res = text, the_title = 'Witam')
 	else:

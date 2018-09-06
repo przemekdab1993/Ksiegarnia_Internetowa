@@ -4,8 +4,10 @@ body
 	color: #000;
 	margin: 0px;
 	font-size: 18px;
+	background: url("../img/tlo_01.png") left 0px bottom 0px;
+	background-repeat: no-repeat;
 }
-button:focus
+button:focus, input:focus
 {
 	outline: none;
 }
@@ -74,8 +76,18 @@ a.link_clear
 	max-width: 1200px;
 	width: 90%;
 	padding: 40px;
-	background-color: #e6e6ff;
+	background-color: rgba(230, 230, 255, 0.6);
 	border-radius: 40px;
+}
+.add_0
+{
+	width: 772px;
+	height: 122px;
+	padding: 8px;
+	background-color: #ffffff;
+	border: 2px solid #0000b3;
+	border-radius: 2px; 
+	margin: 24px auto;
 }
 footer
 {
@@ -93,7 +105,6 @@ footer
 }
 .button_sort
 {
-	outline: none;
 	background: linear-gradient(to top, #9999ff 0%, #ccccff 100%);
 	border-color: #b3b3ff;
 	border-radius: 10px;
@@ -101,6 +112,10 @@ footer
 	text-shadow: 0px 1px px #4d4dff;
 	line-height: 20px;
 	padding: 3px 5px;
+}
+.button_sort:hover
+{
+	background: linear-gradient(to top, #8080ff 0%, #b3b3ff 100%);
 }
 .button_sort_clicked
 {
@@ -195,9 +210,10 @@ footer
 /* /// "i" - przedrostek  \\\ */
 .grand_book
 {
-	border: 2px dashed #0000b3;
+	border: 3px solid #d4d4f7;
 	border-radius: 30px;
 	padding: 40px;
+	background-color: #e0e0eb;
 }
 .grand_book_img
 {
@@ -205,6 +221,9 @@ footer
 	width: 300px;
 	height: 360px;
 	float: left;
+	margin-right: 42px;
+	margin-top: 24px;
+	box-shadow: 3px 2px 16px #666699, 3px 2px 8px #666699;
 }
 .grand_book_img img
 {
@@ -213,7 +232,6 @@ footer
 }
 .grand_book_info
 {
-	float: left;
 	padding: 10px 20px;
 }
 .book_info
@@ -239,24 +257,37 @@ footer
 }
 #info_0 td
 {
-	padding: 2px 10px;
+	padding: 2px 18px;
+	color: #808080;
 }
-.shop
+#info_0 td:nth-child(even)
 {
-	border: 2px dashed #ff8533;
+	color: #000;
+}
+.i-shop
+{
+	border: 4px solid #b6b6fb;
 	border-radius: 30px;
 	padding: 20px 30px;
 	margin-top: 8px;
+	width: 50%;
+	margin-left: 320px;
+	background-color: #c4c4ee;
+
 }
 .buy_button
 {
 	background: linear-gradient(to top, #ff8533 0%, #ffdb4d 100%);
 	color: #fff;
+	text-shadow: 2px 2px 2px #ff8533;
+	box-shadow: 0px 0px 10px #8686f9, 0px 0px 4px #4d4dff;
 	border: none;
 	font-weight: 600;
 	border-radius: 10px;
-	padding: 12px 20px;
+	padding: 10px 18px;
+	letter-spacing: 1px;
 	cursor: pointer;
+	font-size: 20px;
 }
 
 /* /// login.html \\\ */
@@ -265,6 +296,31 @@ footer
 {
 	padding: 40px;
 	font-size: 16px;
+	text-align: center;
+}
+.l-form label 
+{
+	width: 180px;
+}
+.l-form input[type=text], input[type=password]
+{
+	border-radius: 6px;
+	border: 1px solid #8080ff;
+	padding: 4px;
+	margin-bottom: 3px;
+}
+.l-form input[type=submit]
+{
+	border-radius: 12px;
+	padding: 5px;
+	margin-top: 8px;
+	border-width: 3px;
+	background: linear-gradient(to top, #bebef4 0%, #e3e3e8 100%);
+	border-color: #bebef4;
+	color: #000;
+	font-weight: 600;
+	text-shadow: 0px 1px px #4d4dff;
+	width: 120px
 }
 
 /* /// registration.html  \\\ */
@@ -273,20 +329,20 @@ footer
 {
 	width: 500px;
 	margin: 0px auto;
-	padding: 40px;
+	padding: 30px;
 	font-size: 16px;
 }
 label
 {
-	margin-bottom: 0.2rem;
+	margin-bottom: 0.1rem;
 }
 #reg input[type=text], #reg input[type=password], #reg input[type=email]
 {
 	width: 100%;
 	border: 1px solid #8080ff;
 	padding: 5px 0px 5px 10px;
-	margin-bottom: 10px;
-	border-radius: 4px;
+	margin-bottom: 8px;
+	border-radius: 6px;
 }
 #reg input[type=submit]
 {
@@ -298,7 +354,7 @@ label
 	padding: 12px 20px;
 	cursor: pointer;
 	letter-spacing: 1px;
-	margin: 0px auto;
+	margin: 5px auto;
 	display: block;
 }
 

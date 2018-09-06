@@ -3,15 +3,15 @@
 {% block main_container %}
 	<div class="main_container">
 		<div class="l-form">
-			<h2>Logowanie się do konta</h2> 
+			<h1>Logowanie się na konto</h1> 
 			<form action="/login_up" method="post">
-				<label for="user_name">Nazwa użytkownika:
-				<input class="l-input" type="text" name="user_name" /></label>
-				<label for="password">Hasło:
-				<input class="l-input" type="text" name="password" /></label><br />
+				<label for="user_name">Nazwa Użytkownika:</label>
+				<input class="l-input" type="text" name="user_name" /><br />
+				<label for="password">Hasło:</label>
+				<input class="l-input" type="password" name="password" /><br />
 				<input class="l-submit" type="submit" value="Login" />
 			</form>
-			Jeśli nie masz jeszcze konta, kliknij <a href="/registration">Rejestracja</a>
+			Jeśli nie masz jeszcze konta, kliknij <a href="/registration">rejestracja</a>
 		</div>
 		
 	</div>
