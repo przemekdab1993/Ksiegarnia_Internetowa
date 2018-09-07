@@ -46,7 +46,9 @@ def info(id_book : str) -> 'html':
 		res = cursor.fetchall()
 			
 	return render_template('book_info.html', the_info = res, the_title = res[0][1])
-
+@app.route('/regulations')
+def show_regulations() -> 'html':
+	return render_template('regulations.html', the_title = "Regulamin")
 	
 ''' ----------------------------------- '''
 ''' LOGOWANIE I REJESTRACJA UŻYTKOWNIKA '''	
@@ -55,11 +57,12 @@ def info(id_book : str) -> 'html':
 def login() -> 'html':
 	if 'loged_in' in session:
 		with DBco(dbconfig) as cursor:
-			_SQL = """ SELECT id_user, email FROM user WHERE id_user = (%s) """
+			_SQL = """ SELECT id_user, email, data_registration FROM user WHERE id_user = (%s) """
 			cursor.execute(_SQL, (session['id_user'],))
 			res = cursor.fetchone()
-		temp_res = {'user_name': session['user_name'], 'id_user': res[0], 'email': res[1]}
-		return render_template('settings.html', the_res = temp_res , the_title = 'Dane użytkownika')
+		res_date = datetime.date(res[2])
+		temp_res = {'user_name': session['user_name'], 'id_user': res[0], 'email': res[1], 'date': res_date}
+		return render_template('settings.html', the_res = temp_res , the_title = "Dane użytkownika")
 	else:
 		return render_template('login.html', the_title = 'Logowanie')
 		
@@ -91,7 +94,7 @@ def registration() -> 'html':
 	session.clear()
 	return render_template('registration.html', the_title = "Rejestracja")
 
-@app.route('/regist_UNX', methods=['POST'])
+@app.route('/registration-action=reg_UNX', methods=['POST'])
 def reg_UNX() -> 'html':
 	user_name = request.form['user_name']
 	password_1 = request.form['password_1']
@@ -143,9 +146,9 @@ def reg_UNX() -> 'html':
 		with DBco(dbconfig) as cursor:
 			_SQL = """ INSERT INTO user (user_name, password, email, cash) VALUES (%s, %s, %s, %s) """
 			cursor.execute(_SQL, (user_name, password_1, email, '0'))
-		return render_template('login.html', the_script = 'sucess_regist.js', the_title = "Tak")
+		return render_template('login.html', the_script = 'sucess_regist.js', the_title = "Logowanie")
 	else:
-		return render_template('registration.html', the_title = "Nie")
+		return render_template('registration.html', the_title = "Rejestracja")
 
 		
 ''' ----------------------- '''

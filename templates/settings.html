@@ -2,12 +2,13 @@
 
 {% block main_container %}
 	<div class="main_container">
-		<div id="s-title">
-			<h3>Jesteś zalogowany jako {{ the_res.user_name }}</h3>
-			Jeśli to nie ty natychmiast się <a href="/login_down">wyloguj</a>
-		</div>
 		<div class="s-settings_container">
-		Dane użytkownika:
+			<div id="s-title">
+				<h2>Jesteś zalogowany jako <span class="s-span_1">{{ the_res.user_name }}<span></h2>
+				Jeśli to nie ty natychmiast się <a href="/login_down">wyloguj</a>
+			</div>
+		
+			<h4>Dane użytkownika:</h4>
 			<table class="s-table">
 				<tr>
 					<td>ID użytkownika:</td>
@@ -20,6 +21,10 @@
 				<tr>
 					<td>email:</td>
 					<td>{{ the_res.email }}</td>
+				</tr>
+				<tr>
+					<td>data rejestracji</td>
+					<td>{{ the_res.date }}</td>
 				</tr>
 			</table>
 		</div>

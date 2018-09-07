@@ -4,7 +4,7 @@
 	<div class="main_container">
 		<div class="r-form">
 			<h2>Rejestracja</h2>
-			<form id="reg" action="regist_UNX" method="POST">
+			<form id="reg" action="/registration-action=reg_UNX" method="POST">
 				<label for="user_name">nazwa urzytkownika: </label>
 				<input type="text" name="user_name"><br />
 				<label for="passowrd_1">hasło: </label>
@@ -14,7 +14,7 @@
 				<label for="email">email: </label>
 				<input type="text" name="email"><br />
 				<input type="checkbox" name="regulations" />
-				<label for="regulations">Akceptuje reglamin serwisu</label><br />
+				<label for="regulations">Akceptuje <a href="/regulations" >regulamin serwisu</a></label><br />
 				<input type="submit" value="Rejestracja" />
 			</form>
 		</div>
